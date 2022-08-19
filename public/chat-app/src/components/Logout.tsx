@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { BiPowerOff } from "react-icons/bi";
 // @ts-expect-error TS(7016): Could not find a declaration file for module 'styl... Remove this comment to see the full error message
 import styled from "styled-components";
-import axios from "axios";
+import {getRequest} from "../utils/api";
 import { logoutRoute } from "../utils/APIRoutes";
 export default function Logout() {
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ export default function Logout() {
       // @ts-expect-error TS(2345): Argument of type 'string | null' is not assignable... Remove this comment to see the full error message
       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
     )._id;
-    const data = await axios.get(`${logoutRoute}/${id}`);
+    const data = await getRequest(`${logoutRoute}/${id}`);
     if (data.status === 200) {
       localStorage.clear();
       navigate("/login");
