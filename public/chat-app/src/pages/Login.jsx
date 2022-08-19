@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import {postRequest} from '../utils/api'
 import style from 'styled-components'
 import { useNavigate, Link } from 'react-router-dom'
 import Logo from '../assets/logo.svg'
@@ -24,7 +24,7 @@ export default function Login() {
     })
     useEffect(() => {
         const timestamp=performance.getEntriesByType('paint');
-        console.log(timestamp)；
+        console.log(timestamp)
         if (localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
             navigate('/')
         }
@@ -52,7 +52,7 @@ export default function Login() {
         if (handleValidation()) {
             const { username, password } = values
             //post登录信息
-            const { data } = await axios.post(loginRoute, {
+            const { data } = await postRequest(loginRoute, {
                 username,
                 password
             })

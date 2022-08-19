@@ -144,4 +144,22 @@ export type FirstInputDelay = {
     } 
 }
 
+export type InterfaceException = {
+    event:"interface_exception";
+    type:"error_message";
+    params:{
+        url:string
+        message:string
+        time:string
+    }
+}
 
+export type FrontEndException = {
+    event:"front_end_exception";
+    type:"error_message";
+    params:{
+        type:number
+        message:string
+        time:string
+    }
+}

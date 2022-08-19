@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 // @ts-expect-error TS(7016): Could not find a declaration file for module 'styl... Remove this comment to see the full error message
 import styled from "styled-components";
-import axios from "axios";
+import {getRequest,postRequest} from "../utils/api";
 import { Buffer } from "buffer";
 // @ts-expect-error TS(2307): Cannot find module '../assets/loader.gif' or its c... Remove this comment to see the full error message
 import loader from "../assets/loader.gif";
@@ -36,7 +36,7 @@ export default function SetAvatar() {
             const data = []
             //获取随机头像
             for (let i = 0; i < 4; i++) {
-                const image = await axios.get(
+                const image = await getRequest(
                     `${api}/${Math.round(Math.random() * 1000)}`
                 )
                 const buffer = new Buffer(image.data)
@@ -59,7 +59,7 @@ export default function SetAvatar() {
                 localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
             )
             //post选择的头像
-            const { data } = await axios.post(`${setAvatarRoute}/${user._id}`, {
+            const { data } = await postRequest(`${setAvatarRoute}/${user._id}`, {
                 image: avatars[selectedAvatar]
             })
             //设置成功，进入聊天室

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import axios from "axios";
+import {getRequest} from "../utils/api";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 // @ts-expect-error TS(7016): Could not find a declaration file for module 'styl... Remove this comment to see the full error message
@@ -48,7 +48,7 @@ export default function Chat() {
         if (currentUser.isAvatarImageSet) {
           //获取当前在线用户
           // @ts-expect-error TS(2339): Property '_id' does not exist on type 'never'.
-          const data = await axios.get(`${allUsersRoute}/${currentUser._id}`)
+          const data = await getRequest(`${allUsersRoute}/${currentUser._id}`)
           setContacts(data.data)
         } else {
           navigate('/setavatar')
