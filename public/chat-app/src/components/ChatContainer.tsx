@@ -5,7 +5,7 @@ import ChatInput from "./ChatInput";
 import Logout from "./Logout";
 // @ts-expect-error TS(7016): Could not find a declaration file for module 'uuid... Remove this comment to see the full error message
 import { v4 as uuidv4 } from "uuid";
-import axios from "axios";
+import {postRequest} from "../utils/api";
 import { sendMessageRoute, recieveMessageRoute } from "../utils/APIRoutes";
 
 export default function ChatContainer({
@@ -32,7 +32,7 @@ export default function ChatContainer({
         // @ts-expect-error TS(2345): Argument of type 'string | null' is not assignable... Remove this comment to see the full error message
         localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
       )
-      const response = await axios.post(recieveMessageRoute, {
+      const response = await postRequest(recieveMessageRoute, {
         from: data._id,
         to: currentChat._id
       })
@@ -73,7 +73,7 @@ export default function ChatContainer({
       msg
     })
     //post信息
-    await axios.post(sendMessageRoute, {
+    await postRequest(sendMessageRoute, {
       from: data._id,
       to: currentChat._id,
       message: msg

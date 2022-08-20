@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import {postRequest} from '../utils/api'
 // @ts-expect-error TS(7016): Could not find a declaration file for module 'styl... Remove this comment to see the full error message
 import style from 'styled-components'
 import { useNavigate, Link } from 'react-router-dom'
@@ -56,7 +56,7 @@ export default function Login() {
         if (handleValidation()) {
             const { username, password } = values
             //post登录信息
-            const { data } = await axios.post(loginRoute, {
+            const { data } = await postRequest(loginRoute, {
                 username,
                 password
             })
