@@ -31,6 +31,10 @@ export const getOS:()=>OS =function(){
 		name = "Iphone";
 	} else if(userAgent.indexOf("mac") > -1) {
 		name = "Mac";
+		const res =userAgent.match(/mac os x ([\d]*)_([\d]*)_([\d]*)/i);
+		if(res){
+		 version = `${res[1]}.${res[2]}.${res[3]}`;
+		}
 	} else if(userAgent.indexOf("x11") > -1 || userAgent.indexOf("unix") > -1 || userAgent.indexOf("sunname") > -1 || userAgent.indexOf("bsd") > -1) {
 		name = "Unix";
 	} else if(userAgent.indexOf("linux") > -1) {

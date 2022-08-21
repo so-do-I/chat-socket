@@ -30,7 +30,7 @@ axios.interceptors.response.use(data=> {
     return Promise.resolve(err)
 })
 
-let base = "http://182.192.133.82:8086/proxy";
+let base = "http://192.168.31.234:27017/proxy";
 
 export const postRequest = (url:string, params:any) => {
   return axios({
