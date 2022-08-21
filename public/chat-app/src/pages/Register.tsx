@@ -8,7 +8,7 @@ import Logo from '../assets/logo.svg'
 import { ToastContainer, toast } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css"
 import { registerRoute } from "../utils/APIRoutes"
-import {getFMP} from "../utils/webPerformance"
+import {getFMP} from "../utils/performance"
 
 export default function Register() {
     const navigate = useNavigate()

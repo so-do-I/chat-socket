@@ -8,7 +8,7 @@ import Logo from '../assets/logo.svg'
 import { ToastContainer, toast } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css"
 import { loginRoute } from "../utils/APIRoutes"
-import {getFMP,getFID,getBasicInfo,getTTI} from "../utils/webPerformance"
+import {getFMP,getFID,getBasicInfo,getTTI} from "../utils/performance"
 import { getIP } from 'utils/basicInfo'
 
 export default function Login() {
