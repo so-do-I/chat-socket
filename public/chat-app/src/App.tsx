@@ -11,7 +11,8 @@ export default function App() {
   useEffect(() => {
     window.addEventListener('error', (event) => {
       let numA = 2
-      if (event.target?.tagName.toUpperCase() === 'IMG') {
+      const element = event.target as HTMLElement
+      if (element?.tagName.toUpperCase() === 'IMG') {
         numA = 1
       }    
       postRequest(frontEndExceptionRoute, {

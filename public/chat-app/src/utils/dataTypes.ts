@@ -1,6 +1,19 @@
 /**
  * @description:types of data
  */
+
+//basic info
+export type BasicInfo={
+    event:"basic_info";
+    params:{
+        user_id:string,
+        url:string,
+        user_ip?:string,
+        device_id?:string,
+        os_type?:string,
+        os_version?:string,
+    }
+}
 // redirect time 
 export type RedirectTime = {
     event:"redirect_time";

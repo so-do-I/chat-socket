@@ -4,7 +4,30 @@
 
 import * as dataTypes from "./dataTypes"
 import ttiPolyfill from 'tti-polyfill'
+import {getOS,getDeviceType,getIP} from './basicInfo'
 
+export const getBasicInfo :()=>Promise<dataTypes.BasicInfo> = async function(){
+    if(process.env.REACT_APP_LOCALHOST_KEY){
+        //user info in LS
+        var userInfo=localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+        console.log(userInfo);
+    }
+    const {name,version} = getOS();
+    const device_id = getDeviceType();
+    const url=window.location.href;
+    const ip = await getIP();
+    return {
+        event:"basic_info",
+        params:{
+            user_id:'',
+            device_id,
+            url,
+            os_type:name,
+            os_version:version,
+            user_ip:ip
+        }
+    }
+}
 export const performanceTime = function(){
     let timing = performance.timing;
     const loadTime = timing.loadEventEnd - timing.navigationStart;
@@ -22,8 +45,8 @@ export const performanceTime = function(){
         tcp: getTCPConnectTime(),
         ssl: getSSLConnectTime(),
         ttfb: getTTFBRequestTime(),
-        datatransfer: getDataTransferTime(),
-        resourceload: getResourceLoadTime(),
+        data_transfer: getDataTransferTime(),
+        resource_load: getResourceLoadTime(),
         fp: getFP(),
         fcp: getFCP(),
         dcl: getDCL(),
@@ -199,12 +222,12 @@ export const getLCP:()=>void = function(){
                 timestamp:lastEntry.startTime.toString()
             }
         }
-        console.log(LCP);
+        console.log({lcp:LCP});
     }).observe({type: 'largest-contentful-paint', buffered: true});
 }
 
 //First Meaningful Paint
-export const getFMP:()=>dataTypes.FirstMeaningfulPaint = function(){
+export const getFMP:()=>void = function(){
     let timestamp=0;
     var perfEntries = performance.getEntriesByType("mark");
     for (var i = 0; i < perfEntries.length; i++) {
@@ -213,13 +236,14 @@ export const getFMP:()=>dataTypes.FirstMeaningfulPaint = function(){
         }
     }
     //上报
-    return {
+    const FMP= {
         event:"first_meaningful_paint",
         type:"web_performance",
         params:{
             timestamp:timestamp.toString()
         }
     }
+    console.log({fmp:FMP});
 }
 
 //Time to Interactive
@@ -233,7 +257,7 @@ export const getTTI:()=>void = function(){
                     interactiveTime:tti.toString()
                 }
             }
-            console.log(TTI);
+            console.log({tti:TTI});
         }
     });
 }
@@ -253,7 +277,7 @@ export const getFID:()=>void = function(){
                 delayTime:delay.toString()
             }
           }
-          console.log(FID)
+          console.log({fid:FID});
         }
       }).observe({type: 'first-input', buffered: true});
 }

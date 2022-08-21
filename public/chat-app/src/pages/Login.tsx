@@ -8,7 +8,8 @@ import Logo from '../assets/logo.svg'
 import { ToastContainer, toast } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css"
 import { loginRoute } from "../utils/APIRoutes"
-import {getFMP} from "../utils/webPerformance"
+import {getFMP,getFID,getBasicInfo,getTTI} from "../utils/webPerformance"
+import { getIP } from 'utils/basicInfo'
 
 export default function Login() {
     const navigate = useNavigate()
@@ -26,6 +27,10 @@ export default function Login() {
         password: ''
     })
     useEffect(() => {
+        getFID();
+        getTTI();
+        getBasicInfo();
+
         // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
         if (localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
             navigate('/')
