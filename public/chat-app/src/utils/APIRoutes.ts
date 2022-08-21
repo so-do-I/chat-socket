@@ -1,6 +1,5 @@
 //配置后端服务器请求路径
-
-export const loginRoute = '/api/auth/login`;
+export const loginRoute = `/api/auth/login`;
 export const registerRoute = `/api/auth/register`;
 export const logoutRoute = `/api/auth/logout`;
 export const allUsersRoute = `/api/auth/allusers`;
