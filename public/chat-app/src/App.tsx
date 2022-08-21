@@ -15,18 +15,28 @@ export default function App() {
         numA = 1
       }    
       postRequest(frontEndExceptionRoute, {
-        type:numA,
-        time:new Date().getTime(),
-        message:event
+        event:"front_end_exception",
+        type:"error_message",
+        params:{
+          type:numA,
+          time:new Date().getTime(),
+          message:event
+        }
+        
       })
 
     }, true)
     window.addEventListener('unhandledrejection', (event) => {
       event.preventDefault()
       postRequest(frontEndExceptionRoute, {
-        type:3,
-        time:new Date().getTime(),
-        message:event
+        event:"front_end_exception",
+        type:"error_message",
+        params:{
+          type:3,
+          time:new Date().getTime(),
+          message:event
+        }
+        
        })
     })
   },[])
