@@ -28,8 +28,9 @@ export const getBasicInfo :()=>Promise<dataTypes.BasicInfo> = async function(){
         }
     }
 }
-export const performanceTime = function(){
+export const performanceTime = async function(){
     let timing = performance.timing;
+    const user_info = await getBasicInfo();
     const loadTime = timing.loadEventEnd - timing.navigationStart;
     // 过早获取时，loadEeventEnd 有时会是 0
     if (loadTime <= 0){
@@ -39,7 +40,9 @@ export const performanceTime = function(){
         }, 200)
         return;
     }
+    
     return {
+        user_info,
         redirect: getRedirectTime(),
         dns: getDNSLookupTime(),
         tcp: getTCPConnectTime(),
@@ -210,8 +213,8 @@ export const getL:()=>dataTypes.Loaded=function(){
 //以下指标回调触发时上报
 
 //LargestContentfulPaint
-export const getLCP:()=>void = function(){
-    new PerformanceObserver((entryList, observer) => {
+export const getLCP:()=>void = async function(){
+    new PerformanceObserver(async (entryList, observer) => {
         let entries = entryList.getEntries();
         const lastEntry = entries[entries.length - 1];
         observer.disconnect();
@@ -222,12 +225,13 @@ export const getLCP:()=>void = function(){
                 timestamp:lastEntry.startTime.toString()
             }
         }
-        console.log({lcp:LCP});
+        const user_info = await getBasicInfo();
+        console.log({lcp:LCP,user_info});
     }).observe({type: 'largest-contentful-paint', buffered: true});
 }
 
 //First Meaningful Paint
-export const getFMP:()=>void = function(){
+export const getFMP:()=>void = async function(){
     let timestamp=0;
     var perfEntries = performance.getEntriesByType("mark");
     for (var i = 0; i < perfEntries.length; i++) {
@@ -243,12 +247,13 @@ export const getFMP:()=>void = function(){
             timestamp:timestamp.toString()
         }
     }
-    console.log({fmp:FMP});
+    const user_info = await getBasicInfo();
+    console.log({fmp:FMP,user_info});
 }
 
 //Time to Interactive
-export const getTTI:()=>void = function(){
-    ttiPolyfill.getFirstConsistentlyInteractive().then((tti) => {
+export const getTTI:()=>void = async function(){
+    ttiPolyfill.getFirstConsistentlyInteractive().then(async (tti) => {
         if(tti){
             const TTI:dataTypes.TimeToInteractive ={
                 event:"time_to_interactive",
@@ -257,14 +262,15 @@ export const getTTI:()=>void = function(){
                     interactiveTime:tti.toString()
                 }
             }
-            console.log({tti:TTI});
+            const user_info = await getBasicInfo();
+            console.log({tti:TTI,user_info});
         }
     });
 }
 
 //First Input Delay
-export const getFID:()=>void = function(){
-    new PerformanceObserver((entryList) => {
+export const getFID:()=>void = async function(){
+    new PerformanceObserver(async (entryList) => {
         for (let entry of entryList.getEntries()) {
           let Entry = entry as PerformanceEventTiming;
           const delay = Entry.processingStart - Entry.startTime;
@@ -277,7 +283,8 @@ export const getFID:()=>void = function(){
                 delayTime:delay.toString()
             }
           }
-          console.log({fid:FID});
+          const user_info = await getBasicInfo();
+          console.log({fid:FID,user_info});
         }
       }).observe({type: 'first-input', buffered: true});
 }
